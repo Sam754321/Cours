@@ -1,0 +1,26 @@
+Les liens symboliques ne sont pas gerés sur le '-l'
+    lrwxrwxrwx  1 root root            13 nov.  27  2022 fd -> /proc/self/fd (vrai ls sur /dev)
+    lrwxrwxrwx 1 root root 13 Nov 27 15:51 fd (ton ls sur /dev)
+tu n'affiche pas l'annee
+    
+il faudrai un tri par defaut meme sans option (ascii?)
+
+en cas d'erreur un affichage du nom du dossier est mis meme s'il n'existe pas
+    ./a.out fjdsnfkjsdn
+        fjdsnfkjsdn:
+        2:opendir: No such file or directory
+    ls fjdsnfkjsdn
+        ls: impossible d'accéder à 'fjdsnfkjsdn': Aucun fichier ou dossier de ce type
+
+L'affichage peut etre amélioré avec une gestion des espaces 
+
+Je n'ai pas trouver de segfault ou d'erreur majeure
+
+ATTENTION a l'indentation et la norme 
+
+infos utiles pour la comparaison avec le vrai ls :
+
+sur le terminal tu peut redirer les sorti dans des fichier qui seron crées avec le '>' puis utiliser la commande "diff" pour comparer
+    ls -l / > fichier_vrai_ls
+    ./a.out / > fichier_mon_ls
+    diff fichier_vrai_ls fichier_mon_ls
