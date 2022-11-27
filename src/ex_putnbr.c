@@ -1,6 +1,5 @@
 #include "libtam.h"
 
-
 void ex_putnbr(int nb)
 {
 	if(nb < 0)

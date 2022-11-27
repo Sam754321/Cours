@@ -31,20 +31,22 @@ static char *joinarr(char **arr, char c, int len)
             return NULL;
         while(arr[i])
         {
-                j = 0;
-                while(arr[i][j])
-                {
-                    retstr[k] = arr[i][j];
-                    j++;
-                    k++;
-                }
-                i++;
+            j = 0;
+            while(arr[i][j])
+            {
+                retstr[k] = arr[i][j];
+                j++;
+                k++;
+            }
+            i++;
         }
         retstr[k] = 0;
      }
     return retstr;
 }
 
+// retstr est pas check avant le retour de malloc, inutile de le mettre a NULL avant
+// ca solutionne la ligne de trop !
 static char *joinarr_char(char **arr, char c, int len, int count)
 {
     char *retstr;
@@ -54,29 +56,28 @@ static char *joinarr_char(char **arr, char c, int len, int count)
    
     i = 0;
     k = 0;
-    retstr = NULL;  
-     if(arr && c)
-     {
+    if(arr && c)
+    {
         if(!(retstr = (char*)malloc(sizeof(char) * len + count)))
             return NULL;
         while(arr[i])
         {
-                j = 0;
-                while(arr[i][j])
-                {
-                    retstr[k] = arr[i][j];
-                    j++;
-                    k++;
-                }
-                if(i < (count - 1))
-                {
-                    retstr[k] = c;
-                    k++;
-                }
-                i++;
+            j = 0;
+            while(arr[i][j])
+            {
+                retstr[k] = arr[i][j];
+                j++;
+                k++;
+            }
+            if(i < (count - 1))
+            {
+                retstr[k] = c;
+                k++;
+            }
+            i++;
         }
         retstr[k] = 0;
-     }
+    }
     return retstr;
 }
 

@@ -1,7 +1,6 @@
 # ifndef __TEST_H__
 # define __TEST_H__
 
-#include "../src/.tam_lib/includes/tamcustom.h"
 #include <stdio.h>
 #include <sys/types.h>
 #include <dirent.h>
@@ -12,17 +11,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/sysmacros.h>
-
- #define __EX_00__
- #define __EX_01__
- #define __EX_02__
- #define __EX_03__
- #define __EX_04__
- #define __EX_05__
- #define __EX_06__
- #define __EX_07__
- #define __EX_08__
- #define __EX_09__
 
  # define SET_OPTS					1
  # define XOR_OPTS					2

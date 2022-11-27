@@ -9,7 +9,7 @@ int ex_cmp_char_str(char c, char *str)
         return -1;
     while(str[i])
     {
-        printf("char :%c c___str[i] == %c\n", c, str[i]);
+        // PAS DE DEBUG DANS LE CODE !
         if(str[i] == c)
             return 0;
         i++;

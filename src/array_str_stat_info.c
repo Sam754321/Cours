@@ -12,6 +12,8 @@
 #include <pwd.h>
 #include <grp.h>
 
+// trop d'includes certaines sont inutiles
+
 static char *str_check_rwx(struct stat *info)
 {
     char *ret;
@@ -32,18 +34,20 @@ static char *str_check_rwx(struct stat *info)
     case S_IFSOCK: ret[0] = 's';     break;
     default:       ret[0] = '-';     break;
     }
-info->st_mode & S_IRUSR ? ret[1] = 'r' : 0 ;
-info->st_mode & S_IWUSR ? ret[2] = 'w' : 0 ;
-info->st_mode & S_IXUSR ? ret[3] = 'x' : 0 ;
-info->st_mode & S_IRGRP ? ret[4] = 'r' : 0 ;
-info->st_mode & S_IWGRP ? ret[5] = 'w' : 0 ;
-info->st_mode & S_IXGRP ? ret[6] = 'x' : 0 ;
-info->st_mode & S_IROTH ? ret[7] = 'r' : 0 ;
-info->st_mode & S_IWOTH ? ret[8] = 'w' : 0 ;
-info->st_mode & S_IXOTH ? ret[9] = 'x' : 0 ;
+    info->st_mode & S_IRUSR ? ret[1] = 'r' : 0 ; // ! indentation
+    info->st_mode & S_IWUSR ? ret[2] = 'w' : 0 ;
+    info->st_mode & S_IXUSR ? ret[3] = 'x' : 0 ;
+    info->st_mode & S_IRGRP ? ret[4] = 'r' : 0 ;
+    info->st_mode & S_IWGRP ? ret[5] = 'w' : 0 ;
+    info->st_mode & S_IXGRP ? ret[6] = 'x' : 0 ;
+    info->st_mode & S_IROTH ? ret[7] = 'r' : 0 ;
+    info->st_mode & S_IWOTH ? ret[8] = 'w' : 0 ;
+    info->st_mode & S_IXOTH ? ret[9] = 'x' : 0 ;
     return ret;
 }
 
+// optimisation possible 
+// return ex_ltoa((long)info->st_nlink);
 static char *str_link_nb(struct stat *info)
 {
     char *ret;
@@ -57,16 +61,16 @@ static char *str_uid(struct stat *info)
     char *ret;
 
     if(!(ret = ex_strdup(getpwuid(info->st_uid)->pw_name)))
-        ret = "nobo";
+        ret = "nobo"; // stack !
     return ret;
 }
 
+// ne pas laisser de debug dans le code !
 static char *str_gid(struct stat *info)
 {
     char *ret;
-    // printf("%d gid\n",info->st_gid);
     if(!(ret = ex_strdup(getgrgid(info->st_gid)->gr_name)))
-        ret = "nobo";
+        ret = "nobo"; // stack !
     return ret;
 }
 
@@ -77,10 +81,11 @@ static char *str_time(struct stat *info)
     ret = ex_strsub(ctime(&info->st_ctime), 4, 12);
     return ret;
 }
-
+// saut de ligne declaration assignation !
 char **array_str_stat_info(struct stat *info)
 {
     char **ret_array;
+
     ret_array = NULL;
     if(info)
     {

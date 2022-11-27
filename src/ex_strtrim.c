@@ -14,6 +14,7 @@ static int checkset(char c, char *set)
     }
     return 0;
 }
+
 // retourne une string malloc jusqu'au char demander;
 char *ex_strtrim(const char * str, char *set)
 {

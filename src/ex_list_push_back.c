@@ -15,12 +15,8 @@ void ex_list_push_back(t_list **head, t_list *new)
         {
             tmplist = (*head);
             while(tmplist->next)
-            {
                 tmplist = tmplist->next;
-            }
             tmplist->next = new;
         }
-        
-        
     }
 }

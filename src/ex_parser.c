@@ -33,13 +33,14 @@ static t_parsed *str_to_st_pars(char *str)
         (tmp_arr = ex_strsplit(str,',')) ? 0 : ex_print_error_exit("Erreur_Split_T_Parsed");
         pars_in(ret_st_pars, tmp_arr);
         if(!ret_st_pars->msg || !ret_st_pars->success || !ret_st_pars->error || !ret_st_pars->array )
-                ex_print_error_exit("ERROR_PARSING_IN");
+            ex_print_error_exit("ERROR_PARSING_IN");
         tmp_arr ? ex_del_free_array(tmp_arr) : 0;
     }
     return ret_st_pars;
 }
 
-
+// norme nombre de lignes !
+// pas testé mais ex_memdel_arr devrai pouvoir free le tableau
 t_list *ex_parser(char *path)
 {
     t_list *ret_lst;
@@ -65,12 +66,7 @@ t_list *ex_parser(char *path)
     if(arr_st_pars)
     {
         arr_iter_pars = arr_st_pars;
-        while(arr_iter_pars && *arr_iter_pars)
-        {
-            free(*arr_iter_pars);
-            arr_iter_pars++;
-        }
-        free(arr_st_pars);
+        ex_memdel_arr((void ***)&arr_iter_pars);
     }
     return ret_lst;
 }

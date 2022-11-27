@@ -74,7 +74,20 @@ static int ex_len(char *str, char c)
 	}
 	return 0;
 }
+
+// ajouté pour la norme
+static void cpy_str(char *strtostock, char *str, char c)
+{
+	while(*str != c && *str!= 0)
+	{
+		*strtostock = *str;
+		str++;
+		strtostock++;
+	}
+}
+
 //retourne un array d une string diviser par le char envoyer;
+// normes nombre de lignes ! le commentaire au dessus est de toi
 char **ex_strsplit(const char *st, char c)
 {
 	char **retarr;
@@ -99,12 +112,7 @@ char **ex_strsplit(const char *st, char c)
 			{
 				strtostock = malostr(ex_len(&(*str),c));
 				retarr[j] = strtostock;
-				while(*str != c && *str!= 0)
-				{
-					*strtostock = *str;
-					str++;
-					strtostock++;
-				}
+				cpy_str(strtostock, str, c);
 				j++;
 			}
 		}

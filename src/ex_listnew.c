@@ -8,7 +8,5 @@ t_list *ex_listnew(void *content)
             return NULL;
     retlist->content = content;
     retlist->next = NULL;
-
     return retlist;
-
 }

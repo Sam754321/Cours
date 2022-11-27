@@ -4,13 +4,11 @@
 #include <stdio.h>
 #include <limits.h>
 
-
 static int size_nbr(long nb)
 {
 	int ret;
 
 	ret = 1;
-
 	if(nb < 0 )
 	{
 		if(nb == LONG_MIN)
@@ -71,13 +69,10 @@ char *ex_ltoa(long nb)
 	int i;
 
 	i = size_nbr(nb);
-
 	if(!(retstr = (char*)malloc(i +1)))
 		return NULL;
-
 	char_to_str(NULL, 0, 1);
 	nbr_to_char(retstr, nb);
 	retstr[i] = 0;
-
 	return retstr;
 }

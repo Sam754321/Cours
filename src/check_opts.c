@@ -5,12 +5,12 @@ static int convert_alpha_num(int car)
     int ret;
 
     ret = -1;
-    if(car >= 0 && car <= 26)
+    if(car >= 0 && car <= 26) // inutile ? le char est forcement alphanum donc a-z A-Z 0-9 
         ret = car + 97;
-    else if(car >= 97 && car <= 122 )
-        ret = car - 97;
-    else if(car >= 65 && car <= 90 )
-        ret = car - 65;
+    else if(car >= 'a' && car <= 'z') // mettre la valeur en char (implique un cast implicite) est plus lisible
+        ret = car - 'a';
+    else if(car >= 'A' && car <= 'Z')
+        ret = car - 'A';
     return ret;
 }
 
@@ -45,7 +45,6 @@ int check_opts(char *str, char *list_option,  long *options, int type)
         while(str[i])
         {
             j = ex_is_alpha(str[i]);
-
             if(ex_cmp_char_str(str[i], list_option) != 0 && j != 1 && j != 2)
                 return -1;
             else if(j == 1 || j == 2)
@@ -53,5 +52,5 @@ int check_opts(char *str, char *list_option,  long *options, int type)
             i++;
         }
     }
-return (i -1);
+    return (i -1); // indentation !
 }

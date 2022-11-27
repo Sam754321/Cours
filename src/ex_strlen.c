@@ -8,9 +8,7 @@ unsigned long long ex_strlen(const char *str)
 	if(str)
 	{	
 		while(str[ret] != '\0')
-		{
 			ret++;
-		}
 		return ret;
 	}
 	return ret;

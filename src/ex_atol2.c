@@ -67,7 +67,7 @@ long ex_atol2(char *str)
 	ret = 0;
 	i = 0;
 	j = 0;
-	x = 0;
+	x = 0; // nom pas asser explicite
 	if(str)
 	{
 		while(checkchar(str[i]))
@@ -75,9 +75,9 @@ long ex_atol2(char *str)
 			if((str[i] == '-' && !checkdigit(str[i+1])) || (str[i] == '+' && !checkdigit(str[i+1])))
 				return 0;
 			x = str[i] == '-' ? -1 : 0;
-			 i++;
+			i++;
 		}
-		// i > 0 ? i = lastdigit(str , i) : 0;
+		// pas de debug dans le code !
 		lastdigit(str, i);
 		while(checkdigit(str[i]))
 		{
@@ -85,7 +85,7 @@ long ex_atol2(char *str)
 			i--;
 			j++;
 		}
-		 ret = checknegativ(x, ret);	
+		ret = checknegativ(x, ret);	
 		return ret;
 	}
 	return 0;

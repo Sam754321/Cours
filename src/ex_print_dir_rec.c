@@ -6,31 +6,31 @@ static void print_lst_dir(t_list *tmp_next_lst)
     char *str;
     char *str2;
 
-    while ( tmp_next_lst )
+    while (tmp_next_lst)
+    {
+        content_lst = tmp_next_lst->content;
+        str2 = ex_strrchr(content_lst->path, '/');
+        if((str2[1] != '.' && str2[2] != '.') || (str2[1] == '.' && str2[2] != '.' && str2[2] != 0))
         {
-            content_lst = tmp_next_lst->content;
-            str2 = ex_strrchr(content_lst->path, '/');
-            if((str2[1] != '.' && str2[2] != '.') || (str2[1] == '.' && str2[2] != '.' && str2[2] != 0))
-            {
-                ex_putstr(content_lst->stat_array_info[0]);
-                ex_putstr(" ");
-                ex_putstr(content_lst->stat_array_info[1]);
-                ex_putstr(" ");
-                ex_putstr(content_lst->stat_array_info[2]);
-                ex_putstr(" ");
-                ex_putstr(content_lst->stat_array_info[3]);
-                ex_putstr(" ");
-                str = ex_ltoa(content_lst->len);
-                ex_putstr(str);
-                ex_putstr(" ");
-                ex_putstr(content_lst->stat_array_info[4]);
-                ex_putstr(" ");
-                ex_putstr(&str2[1]);
-                ex_putstr("\n");
-                free(str);
-            }
-            tmp_next_lst = tmp_next_lst->next;
+            ex_putstr(content_lst->stat_array_info[0]);
+            ex_putstr(" ");
+            ex_putstr(content_lst->stat_array_info[1]);
+            ex_putstr(" ");
+            ex_putstr(content_lst->stat_array_info[2]);
+            ex_putstr(" ");
+            ex_putstr(content_lst->stat_array_info[3]);
+            ex_putstr(" ");
+            str = ex_ltoa(content_lst->len);
+            ex_putstr(str);
+            ex_putstr(" ");
+            ex_putstr(content_lst->stat_array_info[4]);
+            ex_putstr(" ");
+            ex_putstr(&str2[1]);
+            ex_putstr("\n");
+            free(str);
         }
+        tmp_next_lst = tmp_next_lst->next;
+    }
 }
 
 static void free_del_content(void *tmp_lst)

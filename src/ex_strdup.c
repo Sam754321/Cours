@@ -3,8 +3,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-
-
+// c'est un ex_strlen
 static size_t lenstr(const char *str)
 {
 	
@@ -14,9 +13,7 @@ static size_t lenstr(const char *str)
 	if(str)
 	{	
 		while(str[ret] != '\0')
-		{
 			ret++;
-		}
 		return ret;
 	}
 	return 0;

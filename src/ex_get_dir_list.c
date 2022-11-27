@@ -9,38 +9,46 @@
 #include <fcntl.h>
 #include <sys/sysmacros.h>
 
+// fais un effort sur l'indentation !
 static void check_err(int nb, char *str)
 {
     if(nb != 0)
     {
-                ex_putnbr(errno);
-                ex_putchar(':');
-                perror(str);
+        ex_putnbr(errno);
+        ex_putchar(':');
+        perror(str);
     }       
     return;
 }
 
+// memset peut etre utile ici
 static char *malostr(const char *s1, const char *s2)
 {
     char * retstr;
+    size_t len;
 
-    retstr =NULL;
+    retstr = NULL;
+    len = 0;
     if(s1 && s2)
-      {
-          if(!(retstr = (char *)malloc(sizeof(char) * (ex_strlen((char*)s1) + ex_strlen((char*)s2) + 2))))
-                return NULL;
-      }
-      else if(s1 && !s2)
-      {
-          if(!(retstr = (char *)malloc(sizeof(char) * (ex_strlen((char*)s1) + 2))))
-                return NULL;
-      }
-      else if(!s1 && s2)
-      {
-          if(!(retstr = (char *)malloc(sizeof(char) * (ex_strlen((char*)s2) + 1))))
-                return NULL;
-      }
-      return retstr;
+    {
+        len = ex_strlen((char*)s1) + ex_strlen((char*)s2) + 2;
+        if(!(retstr = (char *)malloc(sizeof(char) * len))) // + 2 ?
+            return NULL;
+    }
+    else if(s1 && !s2)
+    {
+        len = ex_strlen((char*)s1) + 2;
+        if(!(retstr = (char *)malloc(sizeof(char) * len)))
+            return NULL;
+    }
+    else if(!s1 && s2)
+    {
+        len = ex_strlen((char*)s2) + 1;
+        if(!(retstr = (char *)malloc(sizeof(char) * len)))
+            return NULL;
+    }
+    ex_memset((void *)retstr, len, 0);
+    return retstr;
 }
 
 static char *join_path(const char *s1, const char *s2)
@@ -60,9 +68,9 @@ static char *join_path(const char *s1, const char *s2)
            for(i = 0; s1[i] != 0; i++)
                 retstr[i] = s1[i];
             if(i > 0 && retstr[i - 1] != '/')
-	    {
-                      retstr[i] = '/';
-	                  i++;
+	        {
+                retstr[i] = '/';
+	            i++;
             }
       }
       if(s2)
@@ -75,24 +83,8 @@ static char *join_path(const char *s1, const char *s2)
     return retstr;
 }
 
-// if(!stat)
-//         return 0;
-//     if(stat->st_mode & S_IFCHR)
-//             return 'c';
-//     else if(stat->st_mode & S_IFDIR)
-//             return 'd';
-//     else if(stat->st_mode & S_IFIFO)
-//             return 'f';
-//     else if(stat->st_mode & S_IFLNK)
-//             return 'l';
-//     else if(stat->st_mode & S_IFREG)
-//             return 'r';
-//     else if(stat->st_mode & S_IFSOCK)
-//             return 's';
-//     else if(stat->st_mode & S_IFBLK)
-//             return 'b';
-//     else
-//             return 'u';
+// SUPPRIME LES DEBUG !
+
 static unsigned char typ_file_stat(struct stat *stat)
 {
     char ret;
@@ -107,7 +99,7 @@ static unsigned char typ_file_stat(struct stat *stat)
     stat->st_mode & S_IFREG ? ret = 'r' : 0;
     stat->st_mode & S_IFSOCK ? ret = 's': 0;
     stat->st_mode & S_IFBLK ? ret = 'b' : 0;
-    printf("retour stat :%c\n", ret);
+    // NE PAS LAISSER DE DEBUG
     return ret;
 }
 
@@ -118,12 +110,12 @@ static t_content *ex_list_content_new(struct stat *info,char *nam, size_t siz, u
     retlist = NULL;
     if(nam)
     {
-            if(!(retlist = (t_content*)malloc(sizeof(t_content))))
-                    return NULL;
-            retlist->path = ex_strdup(nam);
-            retlist->len = siz;
-            retlist->type = typ;
-            retlist->stat_array_info = array_str_stat_info(info);
+        if(!(retlist = (t_content*)malloc(sizeof(t_content))))
+            return NULL;
+        retlist->path = ex_strdup(nam);
+        retlist->len = siz;
+        retlist->type = typ;
+        retlist->stat_array_info = array_str_stat_info(info);
     }
     return retlist;
 }
@@ -139,11 +131,7 @@ static t_list *dir_list_content_list(char *path, struct dirent *dir)
     {
             content_path = join_path(path, dir->d_name);
             if((lstat(content_path, &stat_file) != 0))
-            {
-                    perror("");
-                    printf("lstat_error\n");
-            }
-            
+                perror("lstat error");
             new_content = ex_list_content_new(&stat_file,content_path, stat_file.st_size, typ_file_stat(&stat_file));
             new_lst = ex_listnew(new_content);
             free(content_path);
@@ -168,18 +156,18 @@ t_list *ex_get_dir_list(char *path)
 
         check_err(errno,"opendir");
         if(errno == 13 || errno == 20 || errno == 2)
-                return *head_lst;
+            return *head_lst;
         do{
-                errno = 0;
-                tab_dir_info = readdir(dir_opn);
-                check_err(errno,"readdir");
-                if(tab_dir_info)
+            errno = 0;
+            tab_dir_info = readdir(dir_opn);
+            check_err(errno,"readdir");
+            if(tab_dir_info)
 	        {          
-                    if(!(*head_lst))
-                          *head_lst = dir_list_content_list(path, tab_dir_info);
-                    else
-                          ex_list_push_back(head_lst, dir_list_content_list(path, tab_dir_info));
-                }
+                if(!(*head_lst))
+                  *head_lst = dir_list_content_list(path, tab_dir_info);
+                else
+                    ex_list_push_back(head_lst, dir_list_content_list(path, tab_dir_info));
+            }
         }while(tab_dir_info);
         check_err(errno, "readdir");
         closedir(dir_opn);
